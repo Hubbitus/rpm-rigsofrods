@@ -1,14 +1,14 @@
-%global commit0 64ad6f6a2de8dc7e0ce3ee8c29cb8f0956197548
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+# %%global commit0 64ad6f6a2de8dc7e0ce3ee8c29cb8f0956197548
+# %%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:          rigsofrods
-Version:       0.4.6.0
-Release:       0.7%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
+Version:       0.4.7.0
+Release:       1%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
 Summary:       Vehicle simulator based on soft-body physics
 
 License:       GPLv3
 URL:           http://www.rigsofrods.com/
-Source0:       https://github.com/RigsOfRods/rigs-of-rods/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Source0:       https://github.com/RigsOfRods/rigs-of-rods/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 # Recources http://www.rigsofrods.com/wiki/pages/Starting_RoR_under_Linux, unfortunately it is bu unknown licensing
 # see https://github.com/RigsOfRods/rigs-of-rods/issues/542, so we can't redestribute them with package.
 # Just provide autodownloader rc file for easy loading on first start
@@ -49,7 +49,7 @@ Features
 - Based on the OGRE Graphics Engine.
 
 %prep
-%setup -qn rigs-of-rods-%{commit0}
+%setup -qn rigs-of-rods-%{?commit0:%{commit0}}%{!?commit0:%{version}}
 %patch1 -p1 -b .without-angelscript
 
 # Convert lineendings
@@ -142,6 +142,10 @@ EOF
 %{_datarootdir}/%{name}
 
 %changelog
+* Tue Jan 31 2017 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.7.0-1
+- Upstream now use github: https://github.com/RigsOfRods/rigs-of-rods
+- Update to 0.4.7.0 release.
+
 * Sat Aug 06 2016 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.6.0-0.7.git.64ad6f6
 - Update to 64ad6f6.
 - Update high quality pack URL (by https://github.com/RigsOfRods/rigs-of-rods/issues/602#issuecomment-224537716)
