@@ -1,14 +1,17 @@
+# Fedora review: https://bugzilla.redhat.com/show_bug.cgi?id=rigsofrods
+
 # %%global commit0 64ad6f6a2de8dc7e0ce3ee8c29cb8f0956197548
 # %%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:          rigsofrods
 Version:       0.4.7.0
-Release:       1%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
+Release:       2%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
 Summary:       Vehicle simulator based on soft-body physics
 
-License:       GPLv3
+# rigs-of-rods-0.4.7.0/source/main/utils/utf8/README.md *No copyright* CC by (v2.5)
+License:       GPLv3 + CC-BY
 URL:           http://www.rigsofrods.com/
-Source0:       https://github.com/RigsOfRods/rigs-of-rods/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:       https://github.com/RigsOfRods/rigs-of-rods/archive/%{version}/%{name}-%{version}.tar.gz
 # Recources http://www.rigsofrods.com/wiki/pages/Starting_RoR_under_Linux, unfortunately it is bu unknown licensing
 # see https://github.com/RigsOfRods/rigs-of-rods/issues/542, so we can't redestribute them with package.
 # Just provide autodownloader rc file for easy loading on first start
@@ -47,6 +50,13 @@ Features
     is planned.
 - Basic support for scripting using AngelScript.
 - Based on the OGRE Graphics Engine.
+
+%package data
+Summary: Data files for %{name}
+BuildArch: noarch
+
+%description data
+Data files for %{name} like images and maps.
 
 %prep
 %setup -qn rigs-of-rods-%{?commit0:%{commit0}}%{!?commit0:%{version}}
@@ -132,19 +142,30 @@ exec ./RoRConfig "$@"
 EOF
 
 %files
-%doc AUTHORS.md BUILDING.md CONTRIBUTING.md COPYING DEPENDENCIES.md README.md
+%doc AUTHORS.md BUILDING.md CONTRIBUTING.md DEPENDENCIES.md README.md
+%license COPYING
 %attr(0755,-,-) %{_bindir}/RoR
 %attr(0755,-,-) %{_bindir}/RoRConfig
 %dir %{_libexecdir}/%{name}
 %{_libexecdir}/%{name}/RoR
 %{_libexecdir}/%{name}/RoRConfig
 %{_libexecdir}/%{name}/plugins.cfg
+
+%files data
 %{_datarootdir}/%{name}
 
 %changelog
+* Sun Oct 15 2017 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.7.0-2
+- Review starts by Robert-André Mauchin. Thank you. Changes by notes.
+- Simplified source URL.
+- Move COPYING ro %%license from %%doc
+- Add CC-BY into license tag
+- Split-off -data sub-package (/usr/share)
+
 * Tue Jan 31 2017 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.7.0-1
 - Upstream now use github: https://github.com/RigsOfRods/rigs-of-rods
 - Update to 0.4.7.0 release.
+- Failed issue fail on GCC 7.0 - https://github.com/Hubbitus/rpm-rigsofrods/issues/1
 
 * Sat Aug 06 2016 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.6.0-0.7.git.64ad6f6
 - Update to 64ad6f6.
