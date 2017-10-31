@@ -5,11 +5,11 @@
 
 Name:          rigsofrods
 Version:       0.4.7.0
-Release:       2%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
+Release:       3%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
 Summary:       Vehicle simulator based on soft-body physics
 
 # rigs-of-rods-0.4.7.0/source/main/utils/utf8/README.md *No copyright* CC by (v2.5)
-License:       GPLv3 + CC-BY
+License:       GPLv3 and CC-BY
 URL:           http://www.rigsofrods.com/
 Source0:       https://github.com/RigsOfRods/rigs-of-rods/archive/%{version}/%{name}-%{version}.tar.gz
 # Recources http://www.rigsofrods.com/wiki/pages/Starting_RoR_under_Linux, unfortunately it is bu unknown licensing
@@ -68,9 +68,6 @@ dos2unix --keepdate README.md COPYING
 # Rpmlint
 find . -type d -exec chmod 0755 {} \;
 
-# Additional flag: http://www.ogre3d.org/forums/viewtopic.php?f=2&t=71037
-export CXXFLAGS="$RPM_OPT_FLAGS -lboost_system"
-
 cmake \
   -DROR_USE_MYGUI="TRUE" \
   -DROR_USE_OPENAL="TRUE" \
@@ -90,6 +87,8 @@ cmake \
   .
 
 %build
+# Additional flag: http://www.ogre3d.org/forums/viewtopic.php?f=2&t=71037
+export CXXFLAGS="$RPM_OPT_FLAGS -lboost_system"
 make %{?_smp_mflags}
 
 %install
@@ -155,6 +154,10 @@ EOF
 %{_datarootdir}/%{name}
 
 %changelog
+* Tue Oct 31 2017 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.7.0-3
+- Separate licenses by "and"
+- Move CXXFLAGS specification into build stage
+
 * Sun Oct 15 2017 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.7.0-2
 - Review starts by Robert-André Mauchin. Thank you. Changes by notes.
 - Simplified source URL.
