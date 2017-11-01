@@ -5,7 +5,7 @@
 
 Name:          rigsofrods
 Version:       0.4.7.0
-Release:       3%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
+Release:       4%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
 Summary:       Vehicle simulator based on soft-body physics
 
 # rigs-of-rods-0.4.7.0/source/main/utils/utf8/README.md *No copyright* CC by (v2.5)
@@ -87,8 +87,6 @@ cmake \
   .
 
 %build
-# Additional flag: http://www.ogre3d.org/forums/viewtopic.php?f=2&t=71037
-export CXXFLAGS="$RPM_OPT_FLAGS -lboost_system"
 make %{?_smp_mflags}
 
 %install
@@ -154,6 +152,9 @@ EOF
 %{_datarootdir}/%{name}
 
 %changelog
+* Thu Nov 02 2017 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.7.0-4
+- Drop CXXFLAGS adjusting because in fresh versions system boost used by default (https://github.com/RigsOfRods/rigs-of-rods/commit/17ab75843545407433dc319e1aaa6831eb854b87)
+
 * Tue Oct 31 2017 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.7.0-3
 - Separate licenses by "and"
 - Move CXXFLAGS specification into build stage
