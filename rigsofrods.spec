@@ -5,7 +5,7 @@
 
 Name:          rigsofrods
 Version:       0.4.7.0
-Release:       4%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
+Release:       5%{?shortcommit0:.git.%{shortcommit0}}%{?dist}
 Summary:       Vehicle simulator based on soft-body physics
 
 # rigs-of-rods-0.4.7.0/source/main/utils/utf8/README.md *No copyright* CC by (v2.5)
@@ -68,6 +68,7 @@ dos2unix --keepdate README.md COPYING
 # Rpmlint
 find . -type d -exec chmod 0755 {} \;
 
+%build
 cmake \
   -DROR_USE_MYGUI="TRUE" \
   -DROR_USE_OPENAL="TRUE" \
@@ -83,10 +84,8 @@ cmake \
   -DCAELUM_LIBRARIES=%{_libdir}/OGRE/libCaelum.so \
   -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} \
-  \
   .
 
-%build
 make %{?_smp_mflags}
 
 %install
@@ -152,6 +151,9 @@ EOF
 %{_datarootdir}/%{name}
 
 %changelog
+* Thu Nov 02 2017 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.7.0-5
+- Move cmake run into %%build stage
+
 * Thu Nov 02 2017 Pavel Alexeev <Pahan@Hubbitus.info> - 0.4.7.0-4
 - Drop CXXFLAGS adjusting because in fresh versions system boost used by default (https://github.com/RigsOfRods/rigs-of-rods/commit/17ab75843545407433dc319e1aaa6831eb854b87)
 
